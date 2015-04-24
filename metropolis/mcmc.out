@@ -1,0 +1,5 @@
+Generated n  1000000  samples with a single walker
+with acceptance ratio 0.620934
+computing autocorrelation time...
+done in 0.214403152466  seconds.
+tacor= (27.42557404929415, 0.012145309798653163, 0.005244267548003139)

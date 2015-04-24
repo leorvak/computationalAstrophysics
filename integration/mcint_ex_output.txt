@@ -1,0 +1,33 @@
+%run C:/Users/andrey/classes/mcint_ex.py
+Using n =  1000
+Result =  1654.19633236 estimated error =  399.360391622
+Known result =  1632.10498552  error =  22.0913468345  =  1.35354937522 %
+ 
+completed in time  0.0 sec
+Using n =  10000
+Result =  1634.88583778 estimated error =  128.824988953
+Known result =  1632.10498552  error =  2.78085225406  =  0.170384397984 %
+ 
+completed in time  0.0460000038147 sec
+Using n =  100000
+Result =  1646.72936 estimated error =  41.3384733174
+Known result =  1632.10498552  error =  14.6243744747  =  0.8960437352 %
+ 
+completed in time  0.345999956131 sec
+Using n =  1000000
+Result =  1640.67189792 estimated error =  13.0282663003
+Known result =  1632.10498552  error =  8.56691239895  =  0.524899591322 %
+ 
+completed in time  3.40400004387 sec
+Using n =  10000000
+Result =  1635.52135088 estimated error =  4.12131562436
+Known result =  1632.10498552  error =  3.41636536248  =  0.209322647304 %
+ 
+completed in time  34.3710000515 sec
+Using n =  100000000
+Result =  1631.5982799 estimated error =  1.30214644297
+Known result =  1632.10498552  error =  0.506705620146  =  0.0310461413108 %
+ 
+completed in time  377.030999899 sec
+
+
