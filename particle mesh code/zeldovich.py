@@ -45,8 +45,11 @@ def dzda(a):
     return -1.0/(a**2)
     
 
+#def f(a):
+#    return 1./np.sqrt((1./a)*(cosmo.Om0 + cosmo.OL0*a**3 + cosmo.Ok0*a))
+
 def f(a):
-    return 1./np.sqrt((1./a)*(cosmo.Om0 + cosmo.OL0*a**3 + cosmo.Ok0*a))
+    return ((a**-1)*(cosmo.Om0 + cosmo.OL0*a**3 + cosmo.Ok0*a))**-0.5
     
 def Dplus(z):
     return cosmo.growthFactor(z)
@@ -69,18 +72,17 @@ def zeldovich(aini,da):
         k = 2.*np.pi/Lbox
         A = 1./Dplus(zcross)/k
 
-        xn = qxi + Dplus(zini)*A*np.sin(k*qxi)
-        yn = qyi + Dplus(zini)*A*np.sin(k*qxi)
-        zn = qzi + Dplus(zini)*A*np.sin(k*qxi)
+        xn = qxi + sDplus(zini)*A*np.sin(k*qxi)
+        yn = qyi + sDplus(zini)*A*np.sin(k*qxi)
+        zn = qzi + sDplus(zini)*A*np.sin(k*qxi)
 
-        px = (aini - 0.5*da)**2*Ddot*A*np.sin(k*qxi)
+        px = (aini-0.5*da)**2*Ddot*A*np.sin(k*qxi)
         py = px
         pz = px
         
         phi = (1.5*cosmo.Om0/aini)*(((qxi**2 - xn**2)/2.)+((Dplus(zini)*A/k)*((k*qxi*np.sin(k*qxi))+np.cos(k*qxi)-1)))
         gx =  (1.5*cosmo.Om0/aini)*Dplus(zini)*A*np.sin(k*qxi)
 
-        return xn,yn,zn,px,py,pz, phi, gx
 
          
 #Particle cell density interpolation
@@ -204,9 +206,9 @@ def evolve(x0, y0, z0, px0, py0, pz0, aini, da):
         ax, ay, az, phi = updateAcceleration(rho,an)
         gx, gy, gz = gintp(x,y,z, ax, ay, az)
         
-        px +=  f(an)*gx*da
-        py +=  f(an)*gy*da
-        pz +=  f(an)*gz*da
+        px +=  f(an)*gx*da*N/Lbox
+        py +=  f(an)*gy*da*N/Lbox
+        pz +=  f(an)*gz*da*N/Lbox
         
         x += (px * da *  f(an-0.5*da +da))/((an-0.5*da +da)**2) 
         y += (py * da *  f(an-0.5*da +da))/((an-0.5*da +da)**2) 
@@ -214,8 +216,8 @@ def evolve(x0, y0, z0, px0, py0, pz0, aini, da):
         
         xa,ya,za,pxa,pya,pza, phia, gxa = zeldovich(an,da)
         
-        xp = x_array[i,:,N/2,N/2]
-        px = px_array[i,:,N/2,N/2]
+        x_array = x[:,N/2,N/2]
+        px_array = px[:,N/2,N/2]
         
         xp_analytic = xa[:,N/2,N/2]
         px_analytic = pxa[:,N/2,N/2]
@@ -229,19 +231,20 @@ def evolve(x0, y0, z0, px0, py0, pz0, aini, da):
         plt.rc('ytick.major',pad=5); plt.rc('ytick.minor',pad=5)
         
         plt.ylim(-3,3); plt.xlim(0,N)
-        plt.plot(xp,px,'bo',label=r'Numerical')
+        plt.plot(x_array,px_array,'bo',label=r'Numerical')
         plt.xlabel('$P_x$',fontsize=16)
         plt.ylabel('$x$',fontsize=16)
         plt.plot(xp_analytic,px_analytic,c='m',linewidth=2.5,label=r'Analytical')
         plt.legend()
-        plt.savefig('zeldovich/zeldovichat%04d'%i)
-        plt.close('all') 
+        #plt.savefig('zeldovich/zeldovichat%i'%n)
         
         rho = computeRho(x,y,z,rhoi)
         
         an += da
         n += 1
-        
+    
+    plt.show()
+
     return
 
 
