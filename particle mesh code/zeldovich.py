@@ -83,6 +83,8 @@ def zeldovich(aini,da):
         phi = (1.5*cosmo.Om0/aini)*(((qxi**2 - xn**2)/2.)+((Dplus(zini)*A/k)*((k*qxi*np.sin(k*qxi))+np.cos(k*qxi)-1)))
         gx =  (1.5*cosmo.Om0/aini)*Dplus(zini)*A*np.sin(k*qxi)
 
+        return xn,yn,zn,px,py,pz, phi, gx
+
 
          
 #Particle cell density interpolation
