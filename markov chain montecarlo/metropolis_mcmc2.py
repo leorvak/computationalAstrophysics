@@ -9,6 +9,7 @@ import numpy as np
 from numpy import random as rnd
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+import seaborn
 
 
 def modelpdf(x1,x2, sig1, sig2, r):
@@ -32,11 +33,11 @@ chain.append([x,y])
 nrand = n
 delta = zip(rnd.uniform(-step,step,nrand),rnd.uniform(-step,step,nrand)) #random inovation, uniform proposal distribution
 
-naccept = 0; i = 0; ntry = 0   
+naccept = 0; i = 0; ntry = 0
 for id in range(n):
     if not i%nrand:  # if running out of random numbers generate some more
        delta = zip(rnd.uniform(-step,step,nrand),rnd.uniform(-step,step,nrand)) #random inovation, uniform proposal distribution
-       i = 0  
+       i = 0
     xtry = x + delta[i][0] # trial step
     ytry = y + delta[i][1]
     gxtry = modelpdf(xtry,ytry,s1,s2,r12)
@@ -44,7 +45,7 @@ for id in range(n):
     if gxtry > gx: # accept trial step with probability min(1.0,gxtry/gx)
         x = xtry; y=ytry
         naccept += 1
-    else:     
+    else:
         aprob = gxtry/gx # acceptance probability
         u = rnd.uniform(0,1)
         if u < aprob:
@@ -53,11 +54,11 @@ for id in range(n):
     # whatever the outcome, include current position in the chain
     chain.append([x,y])
     i += 1; ntry += 1
-    
+
 print "Generated n ",n," samples with a single walker"
 print "with acceptance ratio", 1.0*naccept/ntry
 
-#            
+#
 # plot results:
 #
 x = y = np.arange(-4.0,4.0,0.1)
@@ -83,8 +84,9 @@ plt.colorbar()
 
 dlnL2= np.array([2.30, 4.61, 9.21]) # contours enclosing 68.27, 90, and 99% of the probability density
 Lmax = modelpdf(0.0,0.0,s1,s2,r12)
-lvls = Lmax/np.exp(0.5*dlnL2)
-cs=plt.contour(X,Y,Z, linewidths=(1.0,2.5,5.0), colors='black', norm = LogNorm(), levels = lvls, legend='target pdf' )
+lvls = sorted(Lmax/np.exp(0.5*dlnL2))
+
+cs=plt.contour(X,Y,Z, linewidths=(1.0,2.5,5.0), colors='black', norm = LogNorm(), levels = sorted(lvls), legend='target pdf' )
 plt.xlim(-4,4); plt.ylim(-4,4)
 
 plt.title('MCMC samples vs target distribution')

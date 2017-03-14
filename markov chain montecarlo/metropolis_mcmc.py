@@ -7,6 +7,7 @@ import math
 import numpy as np
 from numpy import random as rnd
 import matplotlib.pyplot as plt
+import seaborn
 
 
 def modelpdf(x):
@@ -23,14 +24,14 @@ delta = rnd.uniform(-step,step,2*n) #random trial steps
 #
 # a simple single chain MCMC Metropolis sampler
 #
-nsample = 0; i = 0  
+nsample = 0; i = 0
 while nsample < n:
     xtry = x + delta[i] # trial step
     gxtry = modelpdf(xtry); gx = modelpdf(x)
-    if gxtry > gx: 
+    if gxtry > gx:
         x = xtry; xchain.append(x)
         nsample += 1
-    else:     
+    else:
         aprob = gxtry/gx # acceptance probability
         u = rnd.uniform(0,1)
         if u < aprob:
@@ -38,7 +39,7 @@ while nsample < n:
             xchain.append(x)
             nsample += 1
     i += 1
-#            
+#
 # plot results:
 #
 x = np.arange(-4.0,4.0,0.1); y = modelpdf(x)

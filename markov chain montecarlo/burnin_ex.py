@@ -6,6 +6,7 @@ from numpy import random as rnd
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import seaborn
 
 
 # number of samples
@@ -15,12 +16,12 @@ n = 1000
 x10 = 10.0; x20 = 0
 r=0.98; s = 0.2
 
-# generate a string of Gaussian numbers 
+# generate a string of Gaussian numbers
 en = rnd.normal(0.0,s,n)
 
 x1 = np.copy(en); x2 = np.copy(en)
 
-# set the starting point 
+# set the starting point
 x1[0] += x10; x2[0] += x20
 
 # iterate

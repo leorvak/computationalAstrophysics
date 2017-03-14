@@ -3,7 +3,7 @@
 #
 #  example of the Metropolis algorithm chain
 #  a difficult distribution: the Rosenbrock “banana” pdf
-#  example of multiple chains 
+#  example of multiple chains
 #
 
 import math
@@ -11,6 +11,7 @@ import numpy as np
 from numpy import random as rnd
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+import seaborn
 
 
 def modelpdf(x1,x2):
@@ -27,17 +28,17 @@ chain = []
 nrand = n*nwalkers
 delta = zip(rnd.uniform(-step,step,nrand),rnd.uniform(-step,step,nrand)) #random inovation, uniform proposal distribution
 
-naccept = 0; i = 0; ntry = 0   
+naccept = 0; i = 0; ntry = 0
 for nd in range(n):
     for i in range(nwalkers):
         xtry = x[i] + delta[ntry][0] # trial step
         ytry = y[i] + delta[ntry][1]
         gxtry = modelpdf(xtry,ytry)
         gx = modelpdf(x[i],y[i])
-        if gxtry > gx: 
+        if gxtry > gx:
             x[i] = xtry; y[i]=ytry
             naccept += 1
-        else:     
+        else:
             aprob = gxtry/gx # acceptance probability
             u = rnd.uniform(0,1)
             if u < aprob:
@@ -46,11 +47,11 @@ for nd in range(n):
         if nd > nburn and (not nd%nsel) : # start the chain only after burn in
             chain.append([x[i],y[i]])
         ntry += 1
-    
+
 print "Generated n ",n*nwalkers," samples using", nwalkers," walkers"
 print "with acceptance ratio", 1.0*naccept/ntry
 
-#            
+#
 # plot results:
 #
 x = np.arange(-10.0,10.0,0.05); y = np.arange(-1.0,100,0.05)
@@ -72,7 +73,7 @@ plt.colorbar()
 
 dlnL2= np.array([2.30, 9.21]) # contours enclosing 68.27 and 99% of the probability density
 Lmax = modelpdf(0.0,0.0)
-lvls = Lmax/np.exp(0.5*dlnL2)
+lvls = sorted(Lmax/np.exp(0.5*dlnL2))
 cs=plt.contour(X,Y,Z, linewidths=(1.0,2.0), colors='black', norm = LogNorm(), levels = lvls, legend='target pdf' )
 
 plt.title('MCMC samples vs target distribution')
