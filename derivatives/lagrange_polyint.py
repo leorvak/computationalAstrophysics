@@ -30,23 +30,21 @@ def LagrangeInterp(data, x):
         #Construct each element of L(x)
         for j in xrange(n):
             L[i] += dy[j]*b(j,xi)
-            
+
     return L
 
 if '__main__' in __name__:
-    import matplotlib as mpl
-    #mpl.use("TKAgg")
     import matplotlib.pylab as plt
 
-    plt.switch_backend('TkAgg')
-
-    plt.ion()
-    x = lambda n: np.linspace(-1,1,n)
-    f = lambda x: np.cos(np.sin(np.pi*x))
-    plt.plot(x(300),f(x(300)),'k')
     n=5
     LX=x(250)
+    x = lambda n: np.linspace(-1,1,n)
+    f = lambda x: np.cos(np.sin(np.pi*x))
+
+    plt.plot(x(300),f(x(300)),'k')
+
     data=zip(x(n),f(x(n)))
     LY = LagrangeInterp(data, LX)
+
     plt.plot(LX,LY,'r')
-    
+    plt.show()
