@@ -86,7 +86,7 @@ dlnL2= np.array([2.30, 4.61, 9.21]) # contours enclosing 68.27, 90, and 99% of t
 Lmax = modelpdf(0.0,0.0,s1,s2,r12)
 lvls = sorted(Lmax/np.exp(0.5*dlnL2))
 
-cs=plt.contour(X,Y,Z, linewidths=(1.0,2.5,5.0), colors='black', norm = LogNorm(), levels = sorted(lvls), legend='target pdf' )
+cs=plt.contour(X,Y,Z, linewidths=(1.0,2.5,5.0), colors='black', norm = LogNorm(), levels = lvls, legend='target pdf' )
 plt.xlim(-4,4); plt.ylim(-4,4)
 
 plt.title('MCMC samples vs target distribution')

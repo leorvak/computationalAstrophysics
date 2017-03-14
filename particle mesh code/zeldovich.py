@@ -133,15 +133,15 @@ def updateAcceleration(rho,a):
         #tmp = -0.25*rhof / (G2)
 
         #code units conversion
-        tmp = -((3.*cosmo.Om0)/(8.*a))*rhof / (G2)
+        tmp = -1 * ((3. * cosmo.Om0)/(8. * a)) * rhof / (G2)
         tmp[0, 0, 0] = 0  # omit the G=0 term
 
         phi = np.real(ifftn(tmp))
 
         gx,gy,gz = np.gradient(phi)
-        gx = gx*-1
-        gy = gy*-1
-        gz = gz*-1
+        gx = -1 * gx
+        gy = -1 * gy
+        gz = -1 * gz
 
         return gx, gy, gz, phi
 
@@ -212,9 +212,9 @@ def evolve(x0, y0, z0, px0, py0, pz0, aini, da):
         py +=  f(an)*gy*da*N/Lbox
         pz +=  f(an)*gz*da*N/Lbox
 
-        x += (px * da *  f(an-0.5*da +da))/((an-0.5*da +da)**2)
-        y += (py * da *  f(an-0.5*da +da))/((an-0.5*da +da)**2)
-        z += (pz * da *  f(an-0.5*da +da))/((an-0.5*da +da)**2)
+        x += (px * da *  f(an - 0.5 * da + da))/((an - 0.5 * da + da)**2)
+        y += (py * da *  f(an - 0.5 * da + da))/((an - 0.5 * da + da)**2)
+        z += (pz * da *  f(an - 0.5 * da + da))/((an - 0.5 * da + da)**2)
 
         xa,ya,za,pxa,pya,pza, phia, gxa = zeldovich(an,da)
 
