@@ -1,2 +1,0 @@
-slurmstepd-midway002: error: *** JOB 10128977 CANCELLED AT 2014-10-26T23:48:40 *** on midway002
-slurmstepd-midway002: error: _slurm_cgroup_destroy: problem deleting step cgroup path /cgroup/freezer/slurm_midway002/uid_24840/job_10128977/step_batch: Device or resource busy
